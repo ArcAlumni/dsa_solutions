@@ -6,6 +6,7 @@ public class CountSetBits {
         System.out.println(main.findNumberOfSetBits2(Integer.MAX_VALUE));
     }
     
+    // O(K) K is number of set bits
     int findNumberOfSetBits2(int n){
         int setBits = 0;
         while(n > 0){   // runs only for number of set bits in n
@@ -15,6 +16,7 @@ public class CountSetBits {
         return setBits;
     }
     
+    // O(N) N is length of bits
     int findNumberOfSetBits1(int n){
         int setBits = 0;
         while(n > 0){
