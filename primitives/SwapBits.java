@@ -9,6 +9,7 @@ public class SwapBits {
         System.out.println(p.swapBits(73, 1, 6));
     }
     
+    // O(1)
     // flip bits if they are different
     long swapBits(long x, int i, int j){
         if(((x >> i) & 1) != ((x >> j) & 1)){ 
