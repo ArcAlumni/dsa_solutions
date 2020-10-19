@@ -1,7 +1,7 @@
 public class SwapBits {
     
     /**
-        Swap the i-th and j-th position bits
+        Swap the i-th and j-th position bits in an integer
     */
     
     public static void main(String[] args) {
