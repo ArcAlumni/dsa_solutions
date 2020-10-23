@@ -1,7 +1,7 @@
 public class JumpGame {
     
     /**
-        Minimum steps to reach end of array. Jump based on current value of 'i'
+        Can reach end of array. Jump based on current value of 'i'
     */
     
     public static void main(String[] args) {
