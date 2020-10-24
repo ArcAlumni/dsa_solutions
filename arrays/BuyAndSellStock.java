@@ -1,7 +1,7 @@
-public class BuyAndSellAStock {
+public class BuyAndSellStock {
     
     public static void main(String[] args) {
-        BuyAndSellAStock obj = new BuyAndSellAStock();
+        BuyAndSellStock obj = new BuyAndSellStock();
         int[] arr = {12,2,3,9,4,1,5};
         System.out.println(obj.maxProfitOneBuy(arr));
     }
