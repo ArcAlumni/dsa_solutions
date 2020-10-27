@@ -18,30 +18,33 @@ class MnemonicsForPhoneNumber {
         listArray.add(Arrays.asList('w','x','y','z'));
         
                 
-        
+        // add first digit possibilities
         List<String> list = listArray.get((int) digits.charAt(0) - '0').stream()
                                 .map(c -> String.valueOf(c))
                                 .collect(Collectors.toList());
         
+        // for every digit
         for(int i=1;i<digits.length();i++){
 
             int digit = digits.charAt(i) - '0';
             ArrayList<String> temp = new ArrayList<>();
             
+            // for every previously generated strings
             for(String s : list){
+                
+                // append every character to prev string and add to new list
                 for(Character newChar : listArray.get(digit)){
                     StringBuilder sb = new StringBuilder();
                     sb.append(s).append(newChar);
                     temp.add(sb.toString());
                 }
+                
             }
             
             list = temp;
-            
         }
             
         return list;
-        
     }
     
     public List<String> letterCombinationsRecursive(String digits) {
