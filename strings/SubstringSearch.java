@@ -10,8 +10,13 @@ public class SubstringSearch {
         long searchStrHash = hash(searchStr);
         long strHash = hash(str.substring(0, len));
         for(int i=len;i<str.length();i++){
-            if(searchStrHash == strHash && str.substring(i - len, i).equals(searchStr))
+            if(searchStrHash == strHash){
+                for(int j=0,k=i;j<len;j++,k++){
+                    if(searchStr.charAt(j) != str.charAt(k))
+                        break;
+                }       
                 return true;
+            }
             strHash = rollingHash(strHash, str.charAt(i - len), str.charAt(i), len);
         }
         return false;
