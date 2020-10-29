@@ -20,5 +20,25 @@ public class ClosestIntWithSameWeight {
         }
         throw new RuntimeException("Invalid integer");
     }
+    int lowestBitSet(int x){
+      return  x & ~(x-1);
+    }
+    int lowestBitNotSet(int x){
+      return ~x & (x+1);
+    }
+    
+    int closestIntWithSameWeight2(int x){
+        int ns = lowestBitNotSet(x);
+        int s = lowestBitSet(x);
+        if (ns>s){
+           x|=ns;
+           x^=ns>>1;
+        }
+        else{
+           x^=s;
+           x|=s>>1;
+        }
+        return x;
+    }
     
 }
