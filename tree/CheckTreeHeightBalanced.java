@@ -1,4 +1,4 @@
-class Solution {
+class CheckTreeHeightBalanced {
     
     public boolean isBalanced(TreeNode root) {
         return height(root) != Integer.MIN_VALUE;
