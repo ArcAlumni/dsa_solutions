@@ -1,6 +1,7 @@
 public class CountBits {
 
-
+    // https://leetcode.com/problems/counting-bits/
+    // leetcode #338
     // the no of set bits in a number n is,
     // if n is even , is equal to number of set bits in n>>1
     // if n is odd, is equal to number of set bits in (n-1) plus 1.
