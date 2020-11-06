@@ -18,6 +18,7 @@ class ConstructTreeFromInorderPreorder {
         if(inorderEndIdx == inorderStartIdx)
             return root;
         
+        // cacheable
         int i;
         for(i=inorderStartIdx;i<=inorderEndIdx;i++){
             if(inorder[i] == rootValue)
