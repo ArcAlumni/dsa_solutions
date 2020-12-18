@@ -1,8 +1,29 @@
-import ds.graph.Graph;
-
 public class Main {
 
     public static void main(String[] args) {
+
+        topologicalSort();
+
+    }
+
+    public static void topologicalSort() {
+        Graph graph = new Graph();
+
+        for (int i = 0; i <= 5; i++) {
+            graph.addVertex(i);
+        }
+
+        graph.addEdge(2, 3);
+        graph.addEdge(5, 2);
+        graph.addEdge(5, 0);
+        graph.addEdge(4, 0);
+        graph.addEdge(4, 1);
+        graph.addEdge(3, 1);
+
+        System.out.println(graph.topologicalSort());
+    }
+
+    public static void traversal() {
 
         Graph graph = new Graph();
 
