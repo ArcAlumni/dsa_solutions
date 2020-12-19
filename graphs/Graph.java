@@ -1,10 +1,10 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -102,9 +102,46 @@ public class Graph {
         return li;
     }
 
-    public Map<Integer, Integer> dijkstra(int srcVertex) {
-        // TODO
-        return null;
+    public Map<Integer, List<Integer>> dijkstra(int srcVertex) {
+
+        Vertex sourceVertex = vertices.get(srcVertex);
+
+        sourceVertex.distance = 0;
+        sourceVertex.parent = null;
+
+        PriorityQueue<Vertex> minHeap = new PriorityQueue<>((v1, v2) -> v1.distance - v2.distance);
+        minHeap.add(sourceVertex);
+
+        sourceVertex.visited = true;
+
+        while (!minHeap.isEmpty()) {
+            Vertex currVertex = minHeap.poll();
+            for (Edge edge : currVertex.edges) {
+                if (!edge.to.visited) {
+                    int newDistance = currVertex.distance + edge.weight;
+                    if (newDistance < edge.to.distance) {
+                        minHeap.remove(edge.to);
+                        edge.to.distance = newDistance;
+                        edge.to.parent = currVertex;
+                        minHeap.add(edge.to);
+                    }
+                }
+            }
+            currVertex.visited = true;
+        }
+
+        HashMap<Integer, List<Integer>> res = new HashMap<>();
+
+        for (Vertex v : vertices.values()) {
+            List<Integer> path = new ArrayList<>();
+            for (Vertex vertex = v; vertex != null; vertex = vertex.parent) {
+                path.add(vertex.id);
+            }
+            Collections.reverse(path);
+            res.put(v.id, path);
+        }
+
+        return res;
     }
 
 }
@@ -113,6 +150,9 @@ class Vertex {
 
     int id;
     List<Edge> edges = new LinkedList<>();
+    int distance = Integer.MAX_VALUE;
+    Vertex parent;
+    boolean visited;
 
     Vertex(int id) {
         this.id = id;
