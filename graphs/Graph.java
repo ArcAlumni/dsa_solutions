@@ -4,15 +4,17 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
 public class Graph {
 
-    HashMap<Integer, List<Edge>> vertices = new HashMap<>();
+    Map<Integer, Vertex> vertices = new HashMap<>();
 
-    public void addVertex(int val) {
-        vertices.put(val, new LinkedList<>());
+    public void addVertex(int id) {
+        vertices.put(id, new Vertex(id));
     }
 
     public void addEdge(int fromVertex, int toVertex) {
@@ -20,24 +22,24 @@ public class Graph {
     }
 
     public void addEdge(int fromVertex, int toVertex, int weight) {
-        Edge edge = new Edge(toVertex);
-        edge.setWeight(weight);
-        vertices.get(fromVertex).add(edge);
+        Vertex from = vertices.get(fromVertex);
+        Vertex to = vertices.get(toVertex);
+        from.addEdge(to, weight);
     }
 
     public List<Integer> dfs(int startVertex) {
         List<Integer> li = new ArrayList<>();
         Set<Integer> visited = new HashSet<>();
-        dfs(startVertex, li, visited);
+        dfsHelper(startVertex, li, visited);
         return li;
     }
 
-    public void dfs(int startVertex, List<Integer> li, Set<Integer> visited) {
+    private void dfsHelper(int startVertex, List<Integer> li, Set<Integer> visited) {
         li.add(startVertex);
         visited.add(startVertex);
-        for (Edge edge : vertices.get(startVertex)) {
-            if (!visited.contains(edge.toVertex))
-                dfs(edge.toVertex, li, visited);
+        for (Edge edge : vertices.get(startVertex).edges) {
+            if (!visited.contains(edge.to.id))
+                dfsHelper(edge.to.id, li, visited);
         }
     }
 
@@ -50,10 +52,10 @@ public class Graph {
         while (!q.isEmpty()) {
             int vtx = q.poll();
             li.add(vtx);
-            for (Edge edge : vertices.get(vtx)) {
-                if (!visited.contains(edge.toVertex)) {
-                    q.add(edge.toVertex);
-                    visited.add(edge.toVertex);
+            for (Edge edge : vertices.get(vtx).edges) {
+                if (!visited.contains(edge.to.id)) {
+                    q.add(edge.to.id);
+                    visited.add(edge.to.id);
                 }
             }
         }
@@ -69,8 +71,8 @@ public class Graph {
         }
 
         for (int vertex : vertices.keySet()) {
-            for (Edge edge : vertices.get(vertex)) {
-                incomingEdges.put(edge.toVertex, incomingEdges.get(edge.toVertex) + 1);
+            for (Edge edge : vertices.get(vertex).edges) {
+                incomingEdges.put(edge.to.id, incomingEdges.get(edge.to.id) + 1);
             }
         }
 
@@ -87,12 +89,12 @@ public class Graph {
         while (!sources.isEmpty()) {
             int vertex = sources.poll();
             li.add(vertex);
-            for (Edge edge : vertices.get(vertex)) {
-                int inDegree = incomingEdges.get(edge.toVertex);
+            for (Edge edge : vertices.get(vertex).edges) {
+                int inDegree = incomingEdges.get(edge.to.id);
                 if (inDegree == 1) {
-                    sources.add(edge.toVertex);
+                    sources.add(edge.to.id);
                 } else {
-                    incomingEdges.put(edge.toVertex, incomingEdges.get(edge.toVertex) - 1);
+                    incomingEdges.put(edge.to.id, incomingEdges.get(edge.to.id) - 1);
                 }
             }
         }
@@ -100,18 +102,52 @@ public class Graph {
         return li;
     }
 
+    public Map<Integer, Integer> dijkstra(int srcVertex) {
+        // TODO
+        return null;
+    }
+
+}
+
+class Vertex {
+
+    int id;
+    List<Edge> edges = new LinkedList<>();
+
+    Vertex(int id) {
+        this.id = id;
+    }
+
+    public void addEdge(Vertex to, int weight) {
+        edges.add(new Edge(this, to, weight));
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(id);
+    }
+
 }
 
 class Edge {
 
-    int toVertex;
+    Vertex from;
+    Vertex to;
     int weight;
 
-    Edge(int toVertex) {
-        this.toVertex = toVertex;
+    Edge(Vertex from, Vertex to) {
+        this.from = from;
+        this.to = to;
     }
 
-    public void setWeight(int weight) {
+    Edge(Vertex from, Vertex to, int weight) {
+        this.from = from;
+        this.to = to;
         this.weight = weight;
     }
 
