@@ -11,10 +11,17 @@ import java.util.Set;
 
 public class Graph {
 
+    private int noOfvertices;
+
+    public int getNodeCount() {
+        return noOfvertices;
+    }
+
     Map<Integer, Vertex> vertices = new HashMap<>();
 
     public void addVertex(int id) {
         vertices.put(id, new Vertex(id));
+        noOfvertices++;
     }
 
     public void addEdge(int fromVertex, int toVertex) {
@@ -144,6 +151,39 @@ public class Graph {
         return res;
     }
 
+    public int prims(int srcVertex) {
+
+        int cost = 0;
+        Vertex source = vertices.get(srcVertex);
+
+        PriorityQueue<Edge> minHeap = new PriorityQueue<>((e1, e2) -> e1.weight - e2.weight);
+
+        for (Edge edge : source.edges) {
+            minHeap.add(edge);
+        }
+
+        source.visited = true;
+
+        while (!minHeap.isEmpty()) {
+
+            Edge minWeightedEdge = minHeap.poll();
+
+            if (minWeightedEdge.to.visited) {
+                continue;
+            }
+
+            minWeightedEdge.to.visited = true;
+
+            cost += minWeightedEdge.weight;
+
+            for (Edge edge : minWeightedEdge.to.edges) {
+                minHeap.add(edge);
+            }
+        }
+
+        return cost;
+    }
+
 }
 
 class Vertex {
@@ -179,6 +219,7 @@ class Edge {
     Vertex from;
     Vertex to;
     int weight;
+    boolean visited;
 
     Edge(Vertex from, Vertex to) {
         this.from = from;
@@ -189,6 +230,11 @@ class Edge {
         this.from = from;
         this.to = to;
         this.weight = weight;
+    }
+
+    @Override
+    public String toString() {
+        return from.id + "-->" + to.id + "(" + weight + ")";
     }
 
 }
