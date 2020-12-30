@@ -173,7 +173,6 @@ public class Graph {
             }
 
             minWeightedEdge.to.visited = true;
-
             cost += minWeightedEdge.weight;
 
             for (Edge edge : minWeightedEdge.to.edges) {
@@ -182,6 +181,19 @@ public class Graph {
         }
 
         return cost;
+    }
+
+    public int countDisjointSets() {
+
+        UnionFind unionFind = new UnionFind(vertices.keySet());
+
+        for (int v : vertices.keySet()) {
+            for (Edge edge : vertices.get(v).edges) {
+                unionFind.unify(v, edge.to.id);
+            }
+        }
+
+        return unionFind.getDisjointSetCount();
     }
 
 }
