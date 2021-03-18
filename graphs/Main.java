@@ -14,15 +14,15 @@ public class Main {
 
         Graph graph = new Graph();
 
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 0; i < 5; i++) {
             graph.addVertex(i);
         }
 
-        int[][] edges = new int[][] { { 1, 2, 0 }, { 2, 3, 0 }, { 3, 1, 1 }, { 4, 5, 2 }, { 6, 6, 9 } };
+        int[][] edges = new int[][] { { 1, 3, 0 }, { 2, 0, 0 }, { 2, 3, 0 }, { 1, 0, 0 }, { 4, 1, 0 }, {0, 3, 0} };
 
         for (int[] edge : edges) {
             graph.addEdge(edge[0], edge[1], edge[2]);
-            graph.addEdge(edge[1], edge[0], edge[2]);
+            //graph.addEdge(edge[1], edge[0], edge[2]);
         }
 
         System.out.println(graph.countDisjointSets());
